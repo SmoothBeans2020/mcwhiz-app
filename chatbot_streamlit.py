@@ -12,8 +12,6 @@ import threading
 
 tts_file = "tts_offline.py"
 
-stt_file = "stt_script.py"
-
 def process_queue(task_queue):
     while True:
         try:
@@ -87,16 +85,6 @@ for message in st.session_state.messages:
             st.markdown(message["content"])
 
 if prompt := st.chat_input("Message McWhiz"):
-    if prompt.lower() == "exit":
-        st.session_state.messages.append({"role":"system","content": "User leaves the chat..."})
-
-        with open("memory.json", 'w') as f:
-            json.dump({"messages": st.session_state.messages}, f, sort_keys=True, indent=4, separators=(',', ': '))
-        keyboard.press_and_release('ctrl+w')
-        pid = os.getpid()
-        p = psutil.Process(pid)
-        p.terminate()
-
     st.session_state.messages.append({"role":"user","content":prompt})
 
     with st.chat_message("user"):
@@ -115,18 +103,8 @@ if prompt := st.chat_input("Message McWhiz"):
 
     string_text = ''.join(response_text)
 
-    if string_text.lower() == 'clear_memory()':
-        st.session_state.messages = [{"role": "assistant", "content": "Type 'Exit' to leave"}]
-        with open("memory.json", 'w') as f:
-            json.dump({"messages": st.session_state.messages}, f, sort_keys=True, indent=4, separators=(',', ': '))
-        keyboard.press_and_release('ctrl+w')
-        pid = os.getpid()
-        p = psutil.Process(pid)
-        p.terminate()
-
-    else:
-        arg = string_text
-        add_task(task_queue, [arg])
+    arg = string_text
+    add_task(task_queue, [arg])
 
     with st.chat_message("assistant"):
         st.write_stream(response(response_text, delay=0.05))
