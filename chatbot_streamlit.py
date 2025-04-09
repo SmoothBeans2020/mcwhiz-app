@@ -66,8 +66,8 @@ if "messages" not in st.session_state:
         qualities = json.load(f)["messages"]
     
     conversation.append(0)
-    if conversation[0] != {"role": "assistant", "content": "Type 'Exit' to leave"}:
-        conversation.insert(0, {"role": "assistant", "content": "Type 'Exit' to leave"})
+    if conversation[0] != {"role": "assistant", "content": "Address McWhiz by his name for a response!"}:
+        conversation.insert(0, {"role": "assistant", "content": "Address McWhiz by his name for a response!"})
     conversation.pop(len(conversation) - 1)
     conversation.append({"role":"system","content": "User joins the chat..."})
 
