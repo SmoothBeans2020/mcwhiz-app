@@ -1,0 +1,9 @@
+keyboard==0.13.5
+openai==1.72.0
+psutil==6.1.0
+pyautogui==0.9.54
+pydub==0.25.1
+pyht==0.1.14
+pyttsx3==2.90
+SpeechRecognition==3.10.4
+streamlit==1.40.2
