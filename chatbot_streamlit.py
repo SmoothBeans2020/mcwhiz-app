@@ -2,7 +2,6 @@ from openai import OpenAI
 import json
 import streamlit as st
 import time
-import keyboard
 import os
 import psutil
 import subprocess
