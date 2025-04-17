@@ -19,5 +19,5 @@ text = ''.join(extract_quoted_text(sys.argv[1]))
 
 engine = pyttsx3.init(driverName='sapi5')
 engine.setProperty('rate', 180)
-engine.say(f'<pitch absmiddle="10">{text}</pitch>')
+engine.save_to_file(f'<pitch absmiddle="10">{text}</pitch>', 'tts.mp3')
 engine.runAndWait()

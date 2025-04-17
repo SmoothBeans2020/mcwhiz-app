@@ -2,8 +2,7 @@ from openai import OpenAI
 import json
 import streamlit as st
 import time
-import os
-import psutil
+import base64
 import subprocess
 import subprocess
 import queue
@@ -49,6 +48,20 @@ def response(list, delay=0.05):
     for chunk in list:
         yield chunk
         time.sleep(delay)
+
+def autoplay_audio(file_path: str):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        md = f"""
+            <audio controls autoplay="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )
 
 st.title("Legendary Chat With The Whiz")
 
@@ -104,6 +117,8 @@ if prompt := st.chat_input("Message McWhiz"):
 
     arg = string_text
     add_task(task_queue, [arg])
+    time.sleep(0.5)
+    autoplay_audio("tts.mp3")
 
     with st.chat_message("assistant"):
         st.write_stream(response(response_text, delay=0.05))
