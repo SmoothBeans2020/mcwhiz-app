@@ -93,20 +93,20 @@ if prompt := st.chat_input("Message McWhiz"):
     try:
         print(f"Starting subprocess with args: {args}")
             
-        process = subprocess.Popen(
+        process = subprocess.run(
             [f"{sys.executable}", tts_file, *args],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             text=True
         )
-        stdout, stderr = process.communicate()
 
         autoplay_audio(tmp_name)
         
-        print(f"Subprocess {args} finished with return code {process.returncode}")
-        print(f"Output: {stdout}")
-        if stderr:
-            print(f"Error: {stderr}")
+        if process.returncode == 0:
+            print("Script executed successfully:")
+            print(process.stdout)
+        else:
+            print("Script failed with error:")
+            print(process.stderr)
     except Exception as e:
         print(f"Error processing task {args}: {e}")
     finally:
