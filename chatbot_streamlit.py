@@ -4,37 +4,10 @@ import streamlit as st
 import time
 import base64
 import subprocess
-import subprocess
-import queue
-import threading
+import os
+import tempfile
 
 tts_file = "tts_offline.py"
-
-def process_queue(task_queue):
-    while True:
-        try:
-            args = task_queue.get()
-            if args is None:
-                break
-            print(f"Starting subprocess with args: {args}")
-            
-            process = subprocess.Popen(
-                ["python", tts_file, *args],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True
-            )
-            stdout, stderr = process.communicate()
-            
-            print(f"Subprocess {args} finished with return code {process.returncode}")
-            print(f"Output: {stdout}")
-            if stderr:
-                print(f"Error: {stderr}")
-        except Exception as e:
-            print(f"Error processing task {args}: {e}")
-
-def add_task(task_queue, args):
-    task_queue.put(args)
 
 def model_completion_to_list(completion):
     out = []
@@ -86,11 +59,6 @@ if "messages" not in st.session_state:
     st.session_state.messages = conversation
     st.session_state.qualities = qualities
 
-task_queue = queue.Queue()
-
-thread = threading.Thread(target=process_queue, args=(task_queue,), daemon=True)
-thread.start()
-
 for message in st.session_state.messages:
     if message["role"] == "user" or message["role"] == "assistant":
         with st.chat_message(message["role"]):
@@ -115,10 +83,33 @@ if prompt := st.chat_input("Message McWhiz"):
 
     string_text = ''.join(response_text)
 
-    arg = string_text
-    add_task(task_queue, [arg])
-    time.sleep(0.5)
-    autoplay_audio("tts.mp3")
+
+    with tempfile.NamedTemporaryFile(delete=False, mode='wb', suffix='.mp3') as tmp_file:
+        tmp_name = tmp_file.name
+
+    args = [string_text, tmp_name]
+
+    try:
+        print(f"Starting subprocess with args: {args}")
+            
+        process = subprocess.Popen(
+            ["python", tts_file, *args],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        stdout, stderr = process.communicate()
+
+        autoplay_audio(tmp_name)
+        
+        print(f"Subprocess {args} finished with return code {process.returncode}")
+        print(f"Output: {stdout}")
+        if stderr:
+            print(f"Error: {stderr}")
+    except Exception as e:
+        print(f"Error processing task {args}: {e}")
+    finally:
+        os.remove(tmp_name)
 
     with st.chat_message("assistant"):
         st.write_stream(response(response_text, delay=0.05))
