@@ -6,6 +6,7 @@ import base64
 import subprocess
 import os
 import tempfile
+import sys
 
 tts_file = "tts_offline.py"
 
@@ -93,7 +94,7 @@ if prompt := st.chat_input("Message McWhiz"):
         print(f"Starting subprocess with args: {args}")
             
         process = subprocess.Popen(
-            ["python", tts_file, *args],
+            [f"{sys.executable}", tts_file, *args],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True
