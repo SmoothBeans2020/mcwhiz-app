@@ -87,6 +87,7 @@ if prompt := st.chat_input("Message McWhiz"):
 
     with tempfile.NamedTemporaryFile(delete=False, mode='wb', suffix='.mp3') as tmp_file:
         tmp_name = tmp_file.name
+        tmp_file.close()
 
     args = [string_text, tmp_name]
 
