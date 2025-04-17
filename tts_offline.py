@@ -19,7 +19,7 @@ text = ''.join(extract_quoted_text(sys.argv[1]))
 
 tmp_name = sys.argv[2]
 
-engine = pyttsx3.init(driverName='sapi5')
+engine = pyttsx3.init()
 engine.setProperty('rate', 180)
 engine.save_to_file(f'<pitch absmiddle="10">{text}</pitch>', tmp_name)
 engine.runAndWait()
