@@ -23,20 +23,6 @@ def response(list, delay=0.05):
         yield chunk
         time.sleep(delay)
 
-def autoplay_audio(file_path: str):
-    with open(file_path, "rb") as f:
-        data = f.read()
-        b64 = base64.b64encode(data).decode()
-        md = f"""
-            <audio controls autoplay="true">
-            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
-            </audio>
-            """
-        st.markdown(
-            md,
-            unsafe_allow_html=True,
-        )
-
 st.title("Legendary Chat With The Whiz")
 
 if "messages" not in st.session_state:
@@ -100,7 +86,7 @@ if prompt := st.chat_input("Message McWhiz"):
             text=True
         )
 
-        autoplay_audio(tmp_name)
+        st.audio(tmp_name, format="audio/mpeg", autoplay=True, loop=False)
         
         if process.returncode == 0:
             print("Script executed successfully:")
