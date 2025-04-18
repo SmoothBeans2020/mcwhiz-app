@@ -20,6 +20,6 @@ text = ''.join(extract_quoted_text(sys.argv[1]))
 tmp_name = sys.argv[2]
 
 language = 'en'
-tts = gTTS(text=text, lang=language, slow=False)
+tts = gTTS(text=text, lang=language, slow=False, tld="com.au")
 
 tts.save(tmp_name)
