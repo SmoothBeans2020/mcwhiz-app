@@ -3,6 +3,13 @@ os.environ['PATH'] += os.pathsep + "C:/ffmpeg/bin"
 import sys
 from gtts import gTTS
 import re
+from pydub import AudioSegment
+import io
+
+
+def change_pitch(audio, semitones):
+    new_sample_rate = int(audio.frame_rate * (2.0 ** (semitones / 12.0)))
+    return audio._spawn(audio.raw_data, overrides={'frame_rate': new_sample_rate}).set_frame_rate(audio.frame_rate)
 
 def extract_quoted_text(text):
     """Extracts all text enclosed in double backticks from a string.
@@ -22,4 +29,12 @@ tmp_name = sys.argv[2]
 language = 'en'
 tts = gTTS(text=text, lang=language, slow=False, tld="com.au")
 
-tts.save(tmp_name)
+fp = io.BytesIO()
+tts.write_to_fp(fp)
+fp.seek(0)
+
+sound = AudioSegment.from_file(fp, format="mp3")
+
+lowered = change_pitch(sound, semitones=-10)  
+
+lowered.export(tmp_name, format="mp3")

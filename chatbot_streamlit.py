@@ -1,6 +1,7 @@
 from openai import OpenAI
 import json
 import streamlit as st
+from streamlit.components.v1 import html
 import time
 import base64
 import subprocess
@@ -86,7 +87,23 @@ if prompt := st.chat_input("Message McWhiz"):
             text=True
         )
 
-        st.audio(tmp_name, format="audio/mpeg", autoplay=True, loop=False)
+        with open(tmp_name, "rb") as f:
+            audio_bytes = f.read()
+        
+        b64 = base64.b64encode(audio_bytes).decode()
+
+        audio_html = f"""
+        <audio id="tts" controls autoplay>
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <script>
+            const audio = document.getElementById("tts");
+            audio.playbackRate = 2;  // Adjust playback speed
+        </script>
+        """
+
+        html(audio_html)
         
         if process.returncode == 0:
             print("Script executed successfully:")
