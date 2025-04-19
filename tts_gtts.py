@@ -1,7 +1,7 @@
 import os
 os.environ['PATH'] += os.pathsep + "C:/ffmpeg/bin"
 import sys
-from gtts import gTTS
+import gtts
 import re
 from pydub import AudioSegment
 import io
@@ -27,7 +27,7 @@ text = ''.join(extract_quoted_text(sys.argv[1]))
 tmp_name = sys.argv[2]
 
 language = 'en'
-tts = gTTS(text=text, lang=language, slow=False, tld="com.au")
+tts = gtts.gTTS(text=text, lang=language, slow=False, tld="com.au")
 
 fp = io.BytesIO()
 tts.write_to_fp(fp)
