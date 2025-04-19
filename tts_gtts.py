@@ -35,6 +35,6 @@ fp.seek(0)
 
 sound = AudioSegment.from_file(fp, format="mp3")
 
-lowered = change_pitch(sound, semitones=-3)  
+lowered = change_pitch(sound, semitones=-2)  
 
 lowered.export(tmp_name, format="mp3")
