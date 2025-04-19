@@ -27,7 +27,7 @@ text = ''.join(extract_quoted_text(sys.argv[1]))
 tmp_name = sys.argv[2]
 
 language = 'en'
-tts = gtts.gTTS(text=text, lang=language, slow=False, tld="com.au")
+tts = gtts.gTTS(text=text, lang=language, slow=False, tld="ie")
 
 fp = io.BytesIO()
 tts.write_to_fp(fp)
