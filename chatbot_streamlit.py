@@ -99,7 +99,7 @@ if prompt := st.chat_input("Message McWhiz"):
         </audio>
         <script>
             const audio = document.getElementById("tts");
-            audio.playbackRate = 2;  // Adjust playback speed
+            audio.playbackRate = 1.5;  // Adjust playback speed
         </script>
         """
 
