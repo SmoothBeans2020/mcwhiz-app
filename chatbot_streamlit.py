@@ -29,7 +29,7 @@ st.title("Legendary Chat With The Whiz")
 if "messages" not in st.session_state:
     st.session_state.client = OpenAI(
         base_url = "https://integrate.api.nvidia.com/v1",
-        api_key = "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"
+        api_key = st.secrets["API_KEY"]
     )
 
     with open("memory.json", 'r') as f:
