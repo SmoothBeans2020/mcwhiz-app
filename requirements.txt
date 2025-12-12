@@ -4,3 +4,4 @@ pydub==0.25.1
 pyttsx3==2.90
 streamlit==1.40.2
 ffmpeg-python==0.2.0
+audioop-lts==0.2.2

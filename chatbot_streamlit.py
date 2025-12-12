@@ -63,7 +63,7 @@ if prompt := st.chat_input("Message McWhiz"):
         st.markdown(prompt)
 
     completion = st.session_state.client.chat.completions.create(
-        model="nvidia/llama-3.1-nemotron-70b-instruct",
+        model="meta/llama-3.3-70b-instruct",
         messages=(st.session_state.qualities+st.session_state.messages),
         temperature=0.6,
         top_p=0.85,
