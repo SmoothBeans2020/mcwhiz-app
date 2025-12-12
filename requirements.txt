@@ -2,6 +2,6 @@ gTTS==2.5.1
 openai==1.75.0
 pydub==0.25.1
 pyttsx3==2.90
-streamlit==1.40.2
+streamlit==1.52.1
 ffmpeg-python==0.2.0
-audioop-lts==0.2.2
+audioop-lts; python_version >= '3.13'
